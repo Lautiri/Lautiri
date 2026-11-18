@@ -1,5 +1,5 @@
 <a href="https://lautaro-villalba-portfolio.web.app">
-  <img src="./assets/card.svg" alt="Lautaro Villalba: datos, cloud y marketing. Nutria en ASCII programando, perfil, trabajo destacado, stack y números de GitHub." width="100%" />
+  <img src="./assets/card.svg" alt="Lautaro Villalba: datos, cloud y marketing. Nutria en ASCII que planifica, programa, testea y hace push; perfil, trabajo destacado, stack y números de GitHub." width="100%" />
 </a>
 
 <img src="https://raw.githubusercontent.com/Lautiri/Lautiri/output/snake.svg" alt="Contribuciones de GitHub recorridas por una viborita" width="100%" />

@@ -1,4 +1,4 @@
-"""Builds assets/card.svg: the profile card (ASCII otter from otterminal, terminal panel, selected work, stack, live GitHub numbers).
+"""Builds assets/card.svg: the profile card (ASCII otter from otterminal going through a work cycle, terminal panel, selected work, stack, live GitHub numbers).
 
 Standard library only, so the daily GitHub Action needs no installs.
 
@@ -101,17 +101,19 @@ def section_title(x, y, s):
 
 
 def otter(x, y, width):
-    """The otter coding at its desk, from otterminal: 80 ASCII frames played in a loop with pure CSS.
+    """The otterminal otter going through a work cycle: plan, code, test, push, all green.
 
-    Every frame is a group; a shared keyframe shows each one for a single step, offset by a negative delay,
-    so the loop needs no script (SVGs inside a README cannot run JavaScript)."""
-    data = json.loads((ROOT / "assets/otter_coding.json").read_text())
-    frames, cols = data["frames"], data["cols"]
+    Pure CSS, since SVGs inside a README cannot run JavaScript. Every frame is a group, and a shared keyframe
+    shows each one for a single step, offset by a negative delay. The state label and the step strip use
+    the same trick at state granularity."""
+    data = json.loads((ROOT / "assets/otter_cycle.json").read_text())
+    states, cols = data["states"], data["cols"]
     cw = width / cols  # textLength pins every glyph to this advance, whatever monospace font GitHub ends up using
     lh = cw * 1.62
     size = cw * 1.68
-    n = len(frames)
     dt = 1 / data["fps"]
+    frames = [f for st in states for f in st["frames"]]
+    n, k = len(frames), len(states)
     loop = n * dt
     out = []
     for i, f in enumerate(frames):
@@ -121,14 +123,34 @@ def otter(x, y, width):
                 continue
             # the leading blank becomes an x offset, the rest keeps its spaces through white-space:pre
             lead = len(line) - len(line.lstrip())
-            body = escape(line.lstrip())
-            lines.append(f'<text x="{x + lead * cw:.1f}" y="{y + r * lh:.1f}" textLength="{(len(line) - lead) * cw:.1f}" lengthAdjust="spacingAndGlyphs">{body}</text>')
+            lines.append(f'<text x="{x + lead * cw:.1f}" y="{y + r * lh:.1f}" textLength="{(len(line) - lead) * cw:.1f}" '
+                         f'lengthAdjust="spacingAndGlyphs">{escape(line.lstrip())}</text>')
         out.append(f'<g class="of" style="animation-delay:{i * dt - loop:.3f}s">{"".join(lines)}</g>')
-    group = (f'<g font-family="{FONT}" font-size="{size:.2f}" fill="{ORANGE}">' + "".join(out) + "</g>")
-    css = (f".of text{{white-space:pre}}.of{{opacity:0;animation:of {loop:.2f}s steps(1,end) infinite}}"
+    group = f'<g font-family="{FONT}" font-size="{size:.2f}" fill="{ORANGE}">' + "".join(out) + "</g>"
+
+    # state label above, like the otterminal status line, and the cycle strip below
+    rh = len(frames[0]) * lh
+    sy = y + rh + 22
+    step = width / k
+    short = {"PLANNING": "plan", "CODING": "code", "TESTING": "test", "GITHUB": "push", "SUCCESS": "ok"}
+    base, labels, marks = [], [], []
+    for j, st in enumerate(states):
+        start = sum(len(s2["frames"]) for s2 in states[:j]) * dt
+        delay = f'style="animation-delay:{start - loop:.3f}s"'
+        labels.append(f'<g class="os" {delay}>' + t(x, y - 22, f"OTTY: {st['name']}", 13, GREEN, weight=600)
+                      + t(x + 20 + len(st["name"]) * 8.4 + 52, y - 22, st["label"], 13, MUTED) + "</g>")
+        cx = x + j * step
+        base.append(t(cx, sy, f"{j + 1:02d} {short[st['name']]}", 12, "#4A4A4A"))
+        if j < k - 1:
+            base.append(t(cx + step - 22, sy, "→", 12, "#3A3A3A"))
+        marks.append(f'<g class="os" {delay}>' + t(cx, sy, f"{j + 1:02d} {short[st['name']]}", 12, ORANGE, weight=600) + "</g>")
+    group += "".join(labels) + "".join(base) + "".join(marks)
+    css = (f".of text{{white-space:pre}}.of,.os{{opacity:0;animation:of {loop:.2f}s steps(1,end) infinite}}"
+           f".os{{animation-name:os}}"
            f"@keyframes of{{0%{{opacity:1}}{100 / n:.4f}%{{opacity:0}}100%{{opacity:0}}}}"
-           "@media (prefers-reduced-motion:reduce){.of{animation:none}.of:first-child{opacity:1}}")
-    return group, len(f) * lh, css
+           f"@keyframes os{{0%{{opacity:1}}{100 / k:.4f}%{{opacity:0}}100%{{opacity:0}}}}"
+           "@media (prefers-reduced-motion:reduce){.of,.os{animation:none}.of:first-child,.os:first-of-type{opacity:1}}")
+    return group, sy - y + 6, css
 
 
 def build():
@@ -212,7 +234,7 @@ def build():
 @keyframes in{{to{{opacity:1}}}}
 @media (prefers-reduced-motion:reduce){{.ln{{opacity:1;animation:none}}}}""" + otter_css
     svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{h}" viewBox="0 0 {W} {h}" role="img" '
-           f'aria-label="Lautaro Villalba: datos, cloud y marketing. Nutria en ASCII programando, stack y trabajo destacado.">'
+           f'aria-label="Lautaro Villalba: datos, cloud y marketing. Nutria en ASCII que planifica, programa, testea y hace push, stack y trabajo destacado.">'
            f"<title>Lautaro Villalba · @{USER}</title><style>{css}</style>"
            f'<rect width="{W}" height="{h}" rx="14" fill="{BG}" stroke="{LINE}"/>' + "\n".join(parts) + "</svg>")
     (ROOT / "assets/card.svg").write_text(svg, encoding="utf-8")
