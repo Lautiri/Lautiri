@@ -1,4 +1,4 @@
-"""Builds assets/card.svg: the profile card (ASCII robot, terminal panel, selected work, stack, live GitHub numbers).
+"""Builds assets/card.svg: the profile card (ASCII otter from otterminal, terminal panel, selected work, stack, live GitHub numbers).
 
 Standard library only, so the daily GitHub Action needs no installs.
 
@@ -19,12 +19,11 @@ BG, CARD, LINE, TEXT, MUTED = "#0A0A0A", "#141414", "#272727", "#FFFFFF", "#8F8F
 ORANGE, CYAN, GREEN = "#FF7A1A", "#2EE6E6", "#3DDC97"
 FONT = "'SF Mono',ui-monospace,Menlo,Consolas,'DejaVu Sans Mono','Liberation Mono',monospace"
 SANS = "-apple-system,'Segoe UI',Helvetica,Arial,sans-serif"
-ROBOT_COLORS = {"body": ORANGE, "dark": "#5A5A5A", "eye": CYAN, "badge": "#F2F2F2"}
 MONTHS = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"]
 
 PANEL = [
     ("head", "lautaro@gcp"),
-    ("row", "Rol", "BI Analyst · MarTech · Analytics Eng."),
+    ("row", "Rol", "BI Analyst · MarTech · Analytics"),
     ("row", "Base", "Buenos Aires, Argentina"),
     ("row", "Cloud", "GCP · BigQuery · Cloud Run"),
     ("row", "Datos", "dbt · Airflow · SQL · Python"),
@@ -101,29 +100,35 @@ def section_title(x, y, s):
     return t(x, y, f"[ {s} ]", 12, MUTED, extra='letter-spacing="3"')
 
 
-def robot(x, y, width):
-    data = json.loads((ROOT / "assets/robot.json").read_text())
-    rows, cols = data["grid"], data["cols"]
-    lh = 9.6
-    size = width / cols * 1.66  # glyph advance is about 0.6 em; textLength fixes it per font anyway
+def otter(x, y, width):
+    """The otter coding at its desk, from otterminal: 80 ASCII frames played in a loop with pure CSS.
+
+    Every frame is a group; a shared keyframe shows each one for a single step, offset by a negative delay,
+    so the loop needs no script (SVGs inside a README cannot run JavaScript)."""
+    data = json.loads((ROOT / "assets/otter_coding.json").read_text())
+    frames, cols = data["frames"], data["cols"]
+    cw = width / cols  # textLength pins every glyph to this advance, whatever monospace font GitHub ends up using
+    lh = cw * 1.62
+    size = cw * 1.68
+    n = len(frames)
+    dt = 1 / data["fps"]
+    loop = n * dt
     out = []
-    for i, row in enumerate(rows):
-        # group consecutive characters of the same colour into one tspan; blanks become no-break spaces
-        runs = []
-        for ch, kind in row:
-            if runs and runs[-1][0] == kind:
-                runs[-1][1] += ch
-            else:
-                runs.append([kind, ch])
-        line = "".join(
-            f'<tspan fill="{ROBOT_COLORS[k]}">{escape(s)}</tspan>' if k else " " * len(s) for k, s in runs
-        )
-        cls = "rb eyes" if any(k == "eye" for _, k in row) else "rb"
-        out.append(
-            f'<text class="{cls}" style="animation-delay:{0.2 + i * 0.03:.2f}s" x="{x}" y="{y + i * lh:.1f}" font-family="{FONT}" '
-            f'font-size="{size:.1f}" textLength="{width}" lengthAdjust="spacingAndGlyphs" xml:space="preserve">{line}</text>'
-        )
-    return "\n".join(out), len(rows) * lh
+    for i, f in enumerate(frames):
+        lines = []
+        for r, line in enumerate(f):
+            if not line.strip():
+                continue
+            # the leading blank becomes an x offset, the rest keeps its spaces through white-space:pre
+            lead = len(line) - len(line.lstrip())
+            body = escape(line.lstrip())
+            lines.append(f'<text x="{x + lead * cw:.1f}" y="{y + r * lh:.1f}" textLength="{(len(line) - lead) * cw:.1f}" lengthAdjust="spacingAndGlyphs">{body}</text>')
+        out.append(f'<g class="of" style="animation-delay:{i * dt - loop:.3f}s">{"".join(lines)}</g>')
+    group = (f'<g font-family="{FONT}" font-size="{size:.2f}" fill="{ORANGE}">' + "".join(out) + "</g>")
+    css = (f".of text{{white-space:pre}}.of{{opacity:0;animation:of {loop:.2f}s steps(1,end) infinite}}"
+           f"@keyframes of{{0%{{opacity:1}}{100 / n:.4f}%{{opacity:0}}100%{{opacity:0}}}}"
+           "@media (prefers-reduced-motion:reduce){.of{animation:none}.of:first-child{opacity:1}}")
+    return group, len(f) * lh, css
 
 
 def build():
@@ -136,10 +141,10 @@ def build():
     parts.append(t(W - 32, 88, "Buenos Aires, Argentina", 14, MUTED, "end"))
     parts.append(f'<line x1="0" y1="116" x2="{W}" y2="116" stroke="{LINE}"/>')
 
-    # robot + terminal panel
-    rb, rh = robot(36, 160, 340)
-    parts.append(rb)
-    px, py, pw = 404, 140, W - 404 - 24
+    # the otter + terminal panel
+    ot, rh, otter_css = otter(24, 172, 520)
+    parts.append(ot)
+    px, py, pw = 564, 140, W - 564 - 24
     ph = 30 + len(PANEL) * 27 + 6
     parts.append(f'<rect x="{px}" y="{py}" width="{pw}" height="{ph}" rx="10" fill="{CARD}" stroke="{LINE}"/>')
     y = py + 32
@@ -150,15 +155,15 @@ def build():
                 y += 6
             w = len(item[1]) * 9 + 14
             parts.append(f'<g class="ln" {delay}><line x1="{px + 16}" y1="{y - 5}" x2="{px + 26}" y2="{y - 5}" stroke="{LINE}"/>'
-                         + t(px + 34, y, item[1], 15, GREEN if i == 0 else ORANGE, weight=600)
+                         + t(px + 34, y, item[1], 14, GREEN if i == 0 else ORANGE, weight=600)
                          + f'<line x1="{px + 34 + w}" y1="{y - 5}" x2="{px + pw - 16}" y2="{y - 5}" stroke="{LINE}"/></g>')
         else:
             _, k, v = item
-            parts.append(f'<g class="ln" {delay}>' + t(px + 18, y, "·", 15, MUTED) + t(px + 34, y, f"{k}:", 14, CYAN)
-                         + dotted(px + 44 + len(k) * 8.6 + 8, px + pw - 22 - len(v) * 8.2, y - 4)
-                         + t(px + pw - 16, y, v, 14, TEXT, "end") + "</g>")
+            parts.append(f'<g class="ln" {delay}>' + t(px + 16, y, "·", 14, MUTED) + t(px + 28, y, f"{k}:", 12.5, CYAN)
+                         + dotted(px + 34 + len(k) * 7.6 + 8, px + pw - 22 - len(v) * 7.6, y - 4)
+                         + t(px + pw - 16, y, v, 12.5, TEXT, "end") + "</g>")
         y += 27
-    top = max(160 + rh, py + ph) + 26
+    top = max(172 + rh, py + ph) + 26
     parts.append(f'<line x1="0" y1="{top}" x2="{W}" y2="{top}" stroke="{LINE}"/>')
 
     # selected work
@@ -203,14 +208,11 @@ def build():
     h = int(y0 + 32 + max(len(STACK), len(stats)) * 26 + 18)
 
     css = f"""
-.rb{{opacity:0;animation:in .35s ease-out forwards}}
 .ln{{opacity:0;animation:in .5s ease-out forwards}}
 @keyframes in{{to{{opacity:1}}}}
-.eyes tspan[fill="{CYAN}"]{{animation:blink 5s 2.5s infinite}}
-@keyframes blink{{0%,92%,100%{{opacity:1}}95%{{opacity:.1}}}}
-@media (prefers-reduced-motion:reduce){{.rb,.ln{{opacity:1;animation:none}}.eyes tspan{{animation:none}}}}"""
+@media (prefers-reduced-motion:reduce){{.ln{{opacity:1;animation:none}}}}""" + otter_css
     svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{h}" viewBox="0 0 {W} {h}" role="img" '
-           f'aria-label="Lautaro Villalba: datos, cloud y marketing. Robot en ASCII, stack y trabajo destacado.">'
+           f'aria-label="Lautaro Villalba: datos, cloud y marketing. Nutria en ASCII programando, stack y trabajo destacado.">'
            f"<title>Lautaro Villalba · @{USER}</title><style>{css}</style>"
            f'<rect width="{W}" height="{h}" rx="14" fill="{BG}" stroke="{LINE}"/>' + "\n".join(parts) + "</svg>")
     (ROOT / "assets/card.svg").write_text(svg, encoding="utf-8")
