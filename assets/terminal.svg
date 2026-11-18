@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="262" viewBox="0 0 640 262" role="img" aria-label="Terminal: Lautaro Villalba, datos, cloud y marketing">
+<title>Lautaro Villalba, datos, cloud y marketing</title>
+<style>text{font-family:'Geist Mono','SF Mono',ui-monospace,Menlo,Consolas,'Liberation Mono',monospace;font-size:15px}
+.c{animation-fill-mode:forwards;animation-timing-function:steps(44,end)}
+.cur{animation:blink 1s steps(1) infinite}@keyframes blink{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.c{animation:none!important}.cur{animation:none}}
+@keyframes w0{from{width:0}to{width:76px}}
+#k0 rect{width:0;animation:w0 0.28s steps(8,end) 0.4s forwards}
+@keyframes w1{from{width:0}to{width:391px}}
+#k1 rect{width:0;animation:w1 1.51s steps(43,end) 0.93s forwards}
+@keyframes w2{from{width:0}to{width:139px}}
+#k2 rect{width:0;animation:w2 0.53s steps(15,end) 2.69s forwards}
+@keyframes w3{from{width:0}to{width:400px}}
+#k3 rect{width:0;animation:w3 1.54s steps(44,end) 3.47s forwards}
+@keyframes w4{from{width:0}to{width:364px}}
+#k4 rect{width:0;animation:w4 1.4s steps(40,end) 5.26s forwards}
+@keyframes w5{from{width:0}to{width:76px}}
+#k5 rect{width:0;animation:w5 0.28s steps(8,end) 6.91s forwards}
+@keyframes w6{from{width:0}to{width:256px}}
+#k6 rect{width:0;animation:w6 0.98s steps(28,end) 7.44s forwards}
+@media (prefers-reduced-motion:reduce){clipPath rect{animation:none!important;width:620px!important}}
+</style>
+<defs><clipPath id="k0"><rect x="28" y="68" height="22"/></clipPath><clipPath id="k1"><rect x="28" y="94" height="22"/></clipPath><clipPath id="k2"><rect x="28" y="120" height="22"/></clipPath><clipPath id="k3"><rect x="28" y="146" height="22"/></clipPath><clipPath id="k4"><rect x="28" y="172" height="22"/></clipPath><clipPath id="k5"><rect x="28" y="198" height="22"/></clipPath><clipPath id="k6"><rect x="28" y="224" height="22"/></clipPath></defs>
+<rect width="640" height="262" rx="14" fill="#181818" stroke="#272727"/>
+<rect width="640" height="40" rx="14" fill="#1F1F1F"/><rect y="26" width="640" height="14" fill="#1F1F1F"/>
+<circle cx="24" cy="20" r="6" fill="#FF5A36"/><circle cx="44" cy="20" r="6" fill="#FFB000"/><circle cx="64" cy="20" r="6" fill="#00B37A"/>
+<text x="320" y="25" fill="#9b9b9b" text-anchor="middle" font-size="12" style="font-size:12px">lautaro@gcp ~ </text>
+<text x="28" y="84" fill="#fff" clip-path="url(#k0)">$ whoami</text>
+<text x="28" y="110" fill="#9b9b9b" clip-path="url(#k1)">lautaro villalba // data, cloud y marketing</text>
+<text x="28" y="136" fill="#fff" clip-path="url(#k2)">$ cat stack.txt</text>
+<text x="28" y="162" fill="#00C2D1" clip-path="url(#k3)">GA4 GTM BigQuery dbt Airflow Braze Amplitude</text>
+<text x="28" y="188" fill="#00B37A" clip-path="url(#k4)">Python FastAPI React Vertex AI Cloud Run</text>
+<text x="28" y="214" fill="#fff" clip-path="url(#k5)">$ status</text>
+<text x="28" y="240" fill="#FFB000" clip-path="url(#k6)">disponible para tu proyecto_</text>
+</svg>
