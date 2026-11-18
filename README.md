@@ -2,7 +2,10 @@
   <img src="./assets/card.svg" alt="Lautaro Villalba: datos, cloud y marketing. Nutria en ASCII programando, perfil, trabajo destacado, stack y números de GitHub." width="100%" />
 </a>
 
+<!-- Contribution snake: generated daily on the "output" branch. Shown again once the calendar has activity
+     (private contributions enabled on the profile).
 <img src="https://raw.githubusercontent.com/Lautiri/Lautiri/output/snake.svg" alt="Contribuciones de GitHub recorridas por una viborita" width="100%" />
+-->
 
 <p align="center">
   <a href="https://lautaro-villalba-portfolio.web.app">Portfolio</a> ·
