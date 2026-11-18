@@ -1,58 +1,14 @@
-<div align="center">
+<a href="https://lautaro-villalba-portfolio.web.app">
+  <img src="./assets/card.svg" alt="Lautaro Villalba: datos, cloud y marketing. Robot en ASCII, perfil, trabajo destacado, stack y números de GitHub." width="100%" />
+</a>
 
-```text
-█       ███   █   █  █████   ███   ████    ███
-█      █   █  █   █    █    █   █  █   █  █   █
-█      █████  █   █    █    █████  ████   █   █
-█      █   █  █   █    █    █   █  █  █   █   █
-█████  █   █   ███     █    █   █  █   █   ███
+<img src="https://raw.githubusercontent.com/Lautiri/Lautiri/output/snake.svg" alt="Contribuciones de GitHub recorridas por una viborita" width="100%" />
 
-  [GA4]--[GTM]-->[BigQuery]-->[dbt]-->[Looker]
-                      |
-              [Airflow]--[Cloud Run]--[Vertex AI]
-```
-
-<img src="./assets/terminal.svg" alt="Terminal: Lautaro Villalba, datos, cloud y marketing" width="640">
-
-**Datos, Cloud y Marketing** · Buenos Aires, Argentina
-
-[Portfolio](https://lautaro-villalba-portfolio.web.app) · [Mail](mailto:lautarovillalbafabricio@gmail.com) · [LinkedIn](https://www.linkedin.com/in/lautaro-villalba/)
-
-</div>
-
-## Hola
-
-Soy Lautaro Villalba. Construyo plataformas de datos en la nube, sobre GCP: ingesta, modelado y automatización para que los datos de marketing y producto lleguen ordenados a quien decide. Mis roles: BI Analyst, MarTech y Analytics Engineer.
-
-## Stack
-
-| Grupo | Herramientas |
-| --- | --- |
-| Modelado y consulta | `dbt` `BigQuery` |
-| Orquestación e infraestructura | `Airflow` `GCS` `Cloud Run` `CI/CD` `Firebase` |
-| MarTech y analítica | `GA4` `GTM` `Google Ads` `Meta Ads` `Braze` `Amplitude` `Looker Studio` `Slack bots` |
-| Aplicaciones e IA | `Python` `FastAPI` `React` `Vite` `Vertex AI` |
-
-## Trabajo seleccionado
-
-Los clientes aparecen por rubro, sin nombres. El detalle de cada caso está en el [portfolio](https://lautaro-villalba-portfolio.web.app).
-
-- **Veko Producciones** · Productora de eventos: web, tracking, un bot que cotiza, Airbnb y diseños. Todo lo que se pueda, automatizado.
-- **Tracking digital de punta a punta** · Del primer tag al tablero: medir para entender el negocio y decidir mejor.
-- **itti** · Equipo interno de datos y MarTech para un grupo de negocios digitales.
-- **Rubik Cloud** · Proyectos de datos, analítica y producto para clientes de distintos rubros.
-- **Agencia de medios** · Una aplicación de reportes que pasó de un cliente a varios.
-- **App para plataformas 360** · Una app de iPhone que graba, edita y entrega el video al invitado con un QR.
-- **Cadena de restaurantes** · Datos de punto de venta y delivery en BigQuery, clientes segmentados y campañas.
-- **Concesionarias de autos** · Medición y Google Ads para concesionarias, hoy a mano y en camino a ser automático.
-
-## Contacto
-
-Si hay datos para ordenar, hablemos.
-
-- Mail: [lautarovillalbafabricio@gmail.com](mailto:lautarovillalbafabricio@gmail.com)
-- LinkedIn: [lautaro-villalba](https://www.linkedin.com/in/lautaro-villalba/)
-- Web: [lautaro-villalba-portfolio.web.app](https://lautaro-villalba-portfolio.web.app)
+<p align="center">
+  <a href="https://lautaro-villalba-portfolio.web.app">Portfolio</a> ·
+  <a href="mailto:lautarovillalbafabricio@gmail.com">Mail</a> ·
+  <a href="https://www.linkedin.com/in/lautaro-villalba/">LinkedIn</a>
+</p>
 
 <details>
 <summary><b>English</b></summary>
@@ -88,13 +44,3 @@ Clients are described by industry, without names. Full cases are in the [portfol
 [lautarovillalbafabricio@gmail.com](mailto:lautarovillalbafabricio@gmail.com) · [LinkedIn](https://www.linkedin.com/in/lautaro-villalba/) · [Portfolio](https://lautaro-villalba-portfolio.web.app)
 
 </details>
-
-<!-- OPTIONAL: GitHub stats cards. Uncomment to enable. Third party services (github-readme-stats, github-readme-streak-stats); they can be slow or rate limited.
-<p align="center">
-  <img height="150" alt="GitHub stats" src="https://github-readme-stats.vercel.app/api?username=Lautiri&show_icons=true&theme=dark&hide_border=true&bg_color=181818&title_color=ffffff&text_color=9b9b9b&icon_color=2D6BFF" />
-  <img height="150" alt="Top languages" src="https://github-readme-stats.vercel.app/api/top-langs/?username=Lautiri&layout=compact&theme=dark&hide_border=true&bg_color=181818&title_color=ffffff&text_color=9b9b9b" />
-</p>
-<p align="center">
-  <img alt="Streak" src="https://streak-stats.demolab.com/?user=Lautiri&theme=dark&hide_border=true&background=181818&ring=2D6BFF&fire=FF5A36&currStreakLabel=ffffff&sideLabels=9b9b9b" />
-</p>
--->
